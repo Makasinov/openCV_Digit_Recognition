@@ -8,7 +8,7 @@
 
 using namespace cv;
 
-const char * filename {"C:\\Files\\test.jpg"}; // FILENAME CHANGE HERE (PATH)
+const char * filename {"C:\\Files\\one#3.jpg"}; // FILENAME CHANGE HERE (PATH)
 
 struct Point
 {
@@ -33,8 +33,8 @@ struct Point
 
 
 
-const int COLS_MAX_SIZE = 25;   // Matrix columns size
-const int ROWS_MAX_SIZE = 25;   // Matrix rows size
+const int COLS_MAX_SIZE = 15;   // Matrix columns size
+const int ROWS_MAX_SIZE = 15;   // Matrix rows size
 
 bool arr[COLS_MAX_SIZE][ROWS_MAX_SIZE];
 
@@ -287,7 +287,6 @@ int main()
     std::cout << "\n-----------------------------------------------------------\n";
     drawArr(arr);
     recognizeNumber(arr);
-
 
     return 0;
 }
