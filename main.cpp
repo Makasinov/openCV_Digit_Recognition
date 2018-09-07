@@ -8,7 +8,9 @@
 
 using namespace cv;
 
-const char * filename {"C:\\Files\\one#3.jpg"}; // FILENAME CHANGE HERE (PATH)
+const char * filename {"C:\\Files\\1.jpg"}; // FILENAME CHANGE HERE (PATH)
+const int COLS_MAX_SIZE = 15;   // Matrix columns size
+const int ROWS_MAX_SIZE = 15;   // Matrix rows size
 
 struct Point
 {
@@ -23,36 +25,34 @@ struct Point
     int wide = 0;
     int height = 0;
 
-    void info()
+    friend std::ostream& operator << (std::ostream &s, const ::Point &p)
     {
-        printf("\nx: %d, y: %d, wide: %d, height: %d",x,y,wide,height);
-        printf("\ncross.y: %d, cross.x_u: %d, cross.x_l: %d",cross.y,cross.x_u,cross.x_l);
-        printf("\ncross.x_uInfo: %c, cross.x_lInfo: %c\n",cross.x_uInfo,cross.x_lInfo);
+        printf("\nx: %d, y: %d, wide: %d, height: %d",p.x,p.y,p.wide,p.height);
+        printf("\ncross.y: %d, cross.x_u: %d, cross.x_l: %d",p.cross.y,p.cross.x_u,p.cross.x_l);
+        printf("\ncross.x_uInfo: %c, cross.x_lInfo: %c\n",p.cross.x_uInfo,p.cross.x_lInfo);
+
+        return s;
     }
 };
 
+std::ostream& operator << (std::ostream &s, const bool arr[COLS_MAX_SIZE][ROWS_MAX_SIZE])
+{
+    for(int x = 0; x < COLS_MAX_SIZE; x++)
+    {
+        for(int y = 0; y < ROWS_MAX_SIZE; y++)
+        {
+            s << arr[x][y] << " ";
+        }
+        s << std::endl;
+    }
+}
 
-
-const int COLS_MAX_SIZE = 15;   // Matrix columns size
-const int ROWS_MAX_SIZE = 15;   // Matrix rows size
 
 bool arr[COLS_MAX_SIZE][ROWS_MAX_SIZE];
 
 ::Point getAttr(bool arr[COLS_MAX_SIZE][ROWS_MAX_SIZE]);
 ::Point getCross(bool arr[COLS_MAX_SIZE][ROWS_MAX_SIZE], ::Point point);
 int getResult(bool arr[COLS_MAX_SIZE][ROWS_MAX_SIZE], ::Point p);
-
-void drawArr(bool arr[COLS_MAX_SIZE][ROWS_MAX_SIZE])
-{
-    for(int x = 0; x < ROWS_MAX_SIZE; x++)
-    {
-        for(int y = 0; y < COLS_MAX_SIZE; y++)
-        {
-            std::cout << arr[x][y] << " ";
-        }
-        std::cout << std::endl;
-    }
-}
 
 ::Point getUpperLeftPoint(bool arr[COLS_MAX_SIZE][ROWS_MAX_SIZE])
 {
@@ -257,7 +257,7 @@ void recognizeNumber(bool arr[COLS_MAX_SIZE][ROWS_MAX_SIZE])
 {
     ::Point point = getAttr(arr);
     point = getCross(arr,point);
-    point.info();
+    std::cout << point;
     int result = getResult(arr,point);
     if (result != -1)
     printf("\n----------------------------------\n"
@@ -285,7 +285,7 @@ int main()
     }
     //cout << "SOURCE = " << endl << " " << M << endl << endl;
     std::cout << "\n-----------------------------------------------------------\n";
-    drawArr(arr);
+    std::cout << arr;
     recognizeNumber(arr);
 
     return 0;
